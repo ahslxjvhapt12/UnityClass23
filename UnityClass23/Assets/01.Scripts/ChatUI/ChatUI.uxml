@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/01.Scripts/ChatUI/ChatUI.uss?fileID=7433441132597879392&amp;guid=55999c6a5fc33f44e8b584d57a7b4aee&amp;type=3#ChatUI" />
+    <ui:VisualElement name="Container" style="width: 100%; height: 100%; align-items: center; justify-content: center; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+        <ui:VisualElement name="ChatBox" style="width: 90%; height: 80%; background-color: rgb(255, 132, 0); border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; padding-left: 16px; padding-right: 16px; padding-top: 10px; padding-bottom: 10px;">
+            <ui:ScrollView name="ChatContent" horizontal-scroller-visibility="Hidden" />
+        </ui:VisualElement>
+        <ui:VisualElement name="MsgInputBox" style="width: 90%; flex-direction: row; height: 80px; flex-grow: 0; flex-shrink: 1; margin-top: 20px;">
+            <ui:TextField picking-mode="Ignore" value="filler text" text="메시지를 입력하세요" name="TextChat" style="flex-basis: 500px; flex-grow: 1;" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" name="BtnSend" class="font20" style="flex-basis: 200px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

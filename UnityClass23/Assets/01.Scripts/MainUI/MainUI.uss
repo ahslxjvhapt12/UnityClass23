@@ -1,0 +1,17 @@
+.btn {
+    font-size: 25px;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 8, 255, 255);
+    transition-duration: 0.5s;
+}
+
+.btn:hover {
+    background-color: rgba(0, 202, 255, 255);
+    rotate: 15deg;
+    scale: 1.2 1.2;
+}
