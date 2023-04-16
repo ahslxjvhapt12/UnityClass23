@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIDecision : MonoBehaviour
+public abstract class AIDecision : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool IsReverse; // 역 결정
+    protected AIBrain _brain;
+    // 결정을 내리기 위해서 필요한 다른 정보
+
+    public virtual void SetUp(AIBrain brain)
     {
-        
+        _brain = brain;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract bool MakeADecision(); // 결정을 내리는 것
+
 }

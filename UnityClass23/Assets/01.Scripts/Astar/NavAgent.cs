@@ -8,6 +8,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 
 public class NavAgent : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class NavAgent : MonoBehaviour
     private Vector3 _nextPos;
     private int _moveIndex = 0;
     private bool _isMoving = false; //이동중인지
+
+    public bool IsArrived = false; //도착했는가
 
     [SerializeField] private LineRenderer _lineRenderer;
 
@@ -38,8 +41,10 @@ public class NavAgent : MonoBehaviour
             _destination = value;
             _isMoving = CalcRoute(); // 경로가 있을경우 _isMoving = true 이다
             _moveIndex = 0;
-            _nextPos = TileMapManager.Instance.GetWorldPos(_routePath[0]);
+            if (_routePath.Count > 0)
+                _nextPos = TileMapManager.Instance.GetWorldPos(_routePath[0]);
             DrawRoutePath();
+            IsArrived = false;
         }
     }
 
@@ -89,15 +94,14 @@ public class NavAgent : MonoBehaviour
 
         if (_isMoving)
         {
-            Debug.Log(1);
             Vector2 dir = (_nextPos - transform.position).normalized;
-            Debug.Log(dir);
-            transform.Translate(dir * _speed * Time.deltaTime);
+            transform.Translate(dir * _speed * Time.deltaTime, Space.World);
 
             if (Vector2.Distance(_nextPos, transform.position) < 0.1f)
             {
                 if (GetNextTarget() == false) //도착해버린거
                 {
+                    IsArrived = true;
                     _isMoving = false;
                 }
             }
@@ -113,6 +117,11 @@ public class NavAgent : MonoBehaviour
         }
         _nextPos = TileMapManager.Instance.GetWorldPos(_routePath[_moveIndex]);
         return true;
+    }
+
+    public void StopImmediately()
+    {
+        _isMoving = false;
     }
 
     #region ASTAR 알고리즘 관련
@@ -165,7 +174,7 @@ public class NavAgent : MonoBehaviour
                 last = last.Parent;
             }
 
-            _routePath.Add(_currentPosition);
+            //_routePath.Add(_currentPosition);
             _routePath.Reverse();
 
             foreach (Vector3Int pos in _routePath)
@@ -184,6 +193,7 @@ public class NavAgent : MonoBehaviour
          * O X O
          * O O O */
 
+
         for (int y = -1; y <= 1; y++)
         {
             for (int x = -1; x <= 1; x++)
@@ -192,7 +202,7 @@ public class NavAgent : MonoBehaviour
 
                 if (_cornerCheck && (Mathf.Abs(x) + Mathf.Abs(y)) == 2)
                 {
-                    Vector3Int corner= n.CellPos + new Vector3Int(x, 0);
+                    Vector3Int corner = n.CellPos + new Vector3Int(x, 0);
                     if (TileMapManager.Instance.CanMove(corner) == false) continue;
                     corner = n.CellPos + new Vector3Int(0, y);
                     if (TileMapManager.Instance.CanMove(corner) == false) continue;

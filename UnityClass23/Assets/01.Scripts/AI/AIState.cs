@@ -1,18 +1,44 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AIState : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<AIAction> Actions = null;
+    public List<AITransition> Transitions = null;
+
+    protected AIBrain _brain;
+
+    private void Awake()
     {
-        
+        _brain = transform.parent.parent.GetComponent<AIBrain>();
+
+        Actions = new List<AIAction>();
+        GetComponents<AIAction>(Actions);
+        Actions.ForEach(a => a.SetUp(_brain));
+
+        Transitions = new List<AITransition>();
+        GetComponentsInChildren<AITransition>(Transitions);
+        Transitions.ForEach(t => t.SetUp(_brain));
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateState()
     {
-        
+        // 내가 가진 액션들을 전부 수행한다.
+        foreach (AIAction a in Actions)
+        {
+            a.TakeAction();
+        }
+        // 내가 전이할 곳들도 전부 판단한다.
+
+        foreach (AITransition t in Transitions)
+        {
+            if (t.CheckTransition())
+            {
+                _brain.ChangeState(t.NextState);
+                break;
+            }
+        }
     }
 }

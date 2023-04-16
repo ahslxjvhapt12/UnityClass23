@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
-public class AIAction : MonoBehaviour
+public abstract class AIAction : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    protected AIBrain _brain;
+
+    public virtual void SetUp(AIBrain brain)
     {
-        
+        _brain = brain;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract void TakeAction(); // 추상메서드로 아래애들이 구현하게
 }
